@@ -108,11 +108,11 @@ export const projects: Project[] = [
   },
   {
     id: "8",
-    title: "Sai’s Digital Canvas",
-    description: "Interactive 3D-inspired personal canvas exploring ideas and experiments.",
-    category: "Experimental",
-    tech: ["React", "Three.js", "TypeScript"],
-    github_url: "https://github.com/Rishi-212005/sai-s-digital-canvas",
+    title: "Smart Price Predictor",
+    description: "ML model that predicts item prices from historical data and key features.",
+    category: "AI / ML",
+    tech: ["Python", "Pandas", "Scikit-learn"],
+    github_url: "https://github.com/Rishi-212005/price-prediction-ml", // update if your repo name differs
     demo_url: "",
   },
 ];
