@@ -1,4 +1,4 @@
-## Sai’s Digital Canvas – Portfolio & AI Assistant
+##  Portfolio & AI Assistant
 
 Interactive developer portfolio for **Sai Rishi Kumar Vedi** built with React, TypeScript, Tailwind CSS, shadcn-ui, and a Supabase-powered AI chatbot that knows about your skills, experience, and projects.
 
