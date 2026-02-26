@@ -16,16 +16,17 @@ const App = () => (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <EditModeProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            {/* Use BASE_URL so routing works under /Personel-Portfolio/ on GitHub Pages */}
+            <BrowserRouter basename={import.meta.env.BASE_URL}>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
         </EditModeProvider>
       </AuthProvider>
     </QueryClientProvider>
