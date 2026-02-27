@@ -4,7 +4,31 @@ import { FiMessageCircle, FiX, FiSend, FiUser, FiCpu } from "react-icons/fi";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
-const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
+const buildLocalAnswer = (question: string): string => {
+  const q = question.toLowerCase();
+
+  if (q.includes("nic") || q.includes("intern")) {
+    return "I completed a web development internship at the National Informatics Centre (NIC), where I built secure e‑Governance modules in PHP and MySQL and implemented authentication and role‑based access control.";
+  }
+
+  if (q.includes("skill")) {
+    return "My main skills are full‑stack web development and secure system design. I work with React, TypeScript, Tailwind CSS on the frontend, and Node.js, Express, PHP, MySQL, and MongoDB on the backend.";
+  }
+
+  if (q.includes("project") || q.includes("portfolio")) {
+    return "This portfolio highlights projects like an AI‑powered raw‑material marketplace, an academia certificate authenticator, an internship and placement portal, and several secure management systems built with PHP and MySQL.";
+  }
+
+  if (q.includes("education") || q.includes("college") || q.includes("b.tech")) {
+    return "I’m pursuing a B.Tech in Computer Science at JNTU Anantapur (2023–2027), and I scored in the top 4% in JEE Mains 2024.";
+  }
+
+  if (q.includes("contact") || q.includes("email") || q.includes("reach")) {
+    return "You can contact me at Sairishikumar.2005@gmail.com. I’m open to internships, projects, and collaborations around full‑stack development and cybersecurity.";
+  }
+
+  return "I’m Rishi’s portfolio assistant. I can answer questions about my skills, projects, NIC internship, education, and interests in full‑stack development and cybersecurity. Ask me anything about those areas.";
+};
 
 const AIChatbot = () => {
   const [open, setOpen] = useState(false);
@@ -27,63 +51,13 @@ const AIChatbot = () => {
     setInput("");
     setIsLoading(true);
 
-    let assistantSoFar = "";
+    const answer = buildLocalAnswer(userMsg.content);
 
-    try {
-      const resp = await fetch(CHAT_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-        },
-        body: JSON.stringify({ messages: allMessages }),
-      });
-
-      if (!resp.ok || !resp.body) {
-        throw new Error("Failed to connect");
-      }
-
-      const reader = resp.body.getReader();
-      const decoder = new TextDecoder();
-      let textBuffer = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        textBuffer += decoder.decode(value, { stream: true });
-
-        let newlineIndex: number;
-        while ((newlineIndex = textBuffer.indexOf("\n")) !== -1) {
-          let line = textBuffer.slice(0, newlineIndex);
-          textBuffer = textBuffer.slice(newlineIndex + 1);
-          if (line.endsWith("\r")) line = line.slice(0, -1);
-          if (!line.startsWith("data: ")) continue;
-          const jsonStr = line.slice(6).trim();
-          if (jsonStr === "[DONE]") break;
-          try {
-            const parsed = JSON.parse(jsonStr);
-            const content = parsed.choices?.[0]?.delta?.content;
-            if (content) {
-              assistantSoFar += content;
-              setMessages((prev) => {
-                const last = prev[prev.length - 1];
-                if (last?.role === "assistant" && prev.length > allMessages.length) {
-                  return prev.map((m, i) => (i === prev.length - 1 ? { ...m, content: assistantSoFar } : m));
-                }
-                return [...prev, { role: "assistant", content: assistantSoFar }];
-              });
-            }
-          } catch {
-            textBuffer = line + "\n" + textBuffer;
-            break;
-          }
-        }
-      }
-    } catch {
-      setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I couldn't connect. Please try again!" }]);
-    } finally {
+    // Simulate a short "thinking" delay so the UI feels natural
+    setTimeout(() => {
+      setMessages((prev) => [...prev, { role: "assistant", content: answer }]);
       setIsLoading(false);
-    }
+    }, 500);
   };
 
   return (
