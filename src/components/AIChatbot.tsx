@@ -1,33 +1,104 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiMessageCircle, FiX, FiSend, FiUser, FiCpu } from "react-icons/fi";
+import { projects, experiences, education, achievements } from "@/data/portfolio";
 
 type Msg = { role: "user" | "assistant"; content: string };
+
+const listTitles = (items: { title: string }[]) =>
+  items.map((p) => p.title).join(", ");
 
 const buildLocalAnswer = (question: string): string => {
   const q = question.toLowerCase();
 
+  // Projects – filter by tech/keywords
+  if (q.includes("project") || q.includes("build") || q.includes("worked on")) {
+    const byTech = (tech: string) =>
+      projects.filter((p) =>
+        p.tech.some((t) => t.toLowerCase().includes(tech)),
+      );
+
+    const reactProjects = byTech("react");
+    const phpProjects = byTech("php");
+    const mlProjects = projects.filter((p) =>
+      p.description.toLowerCase().includes("ai") ||
+      p.description.toLowerCase().includes("ml") ||
+      p.category.toLowerCase().includes("ai"),
+    );
+
+    if (q.includes("react")) {
+      if (reactProjects.length) {
+        return `I’ve built React projects such as ${listTitles(reactProjects)}. You can see their tech stack and GitHub links in the Projects section.`;
+      }
+    }
+
+    if (q.includes("php")) {
+      if (phpProjects.length) {
+        return `On the PHP side, I’ve built systems like ${listTitles(phpProjects)} using PHP and MySQL for secure CRUD operations.`;
+      }
+    }
+
+    if (q.includes("ml") || q.includes("machine learning") || q.includes("ai")) {
+      if (mlProjects.length) {
+        return `For AI/ML, I’ve worked on projects such as ${listTitles(mlProjects)}, focusing on intelligent pricing and smart analytics.`;
+      }
+    }
+
+    return `Some of my key projects are ${listTitles(projects)}. Each card in the Projects section links to the GitHub repo so you can dive into the details.`;
+  }
+
+  // NIC internship / experience
   if (q.includes("nic") || q.includes("intern")) {
-    return "I completed a web development internship at the National Informatics Centre (NIC), where I built secure e‑Governance modules in PHP and MySQL and implemented authentication and role‑based access control.";
+    const nicExp = experiences.find((e) =>
+      e.organization.toLowerCase().includes("national informatics centre"),
+    );
+    if (nicExp) {
+      return `I worked as a ${nicExp.title} at ${nicExp.organization} (${nicExp.period}) in ${nicExp.location}, focusing on ${nicExp.points.join(
+        ", ",
+      )}. It gave me real exposure to secure e‑Governance systems.`;
+    }
+    return "I completed a web development internship at the National Informatics Centre (NIC), where I built secure e‑Governance modules and implemented authentication and role‑based access control.";
   }
 
-  if (q.includes("skill")) {
-    return "My main skills are full‑stack web development and secure system design. I work with React, TypeScript, Tailwind CSS on the frontend, and Node.js, Express, PHP, MySQL, and MongoDB on the backend.";
+  // Skills / tech stack
+  if (q.includes("skill") || q.includes("tech stack") || q.includes("technology")) {
+    return "My core stack is React, TypeScript, Tailwind CSS on the frontend and Node.js, Express, PHP, MySQL, and MongoDB on the backend. I focus on authentication, RBAC, secure APIs, and building full‑stack web apps end‑to‑end.";
   }
 
-  if (q.includes("project") || q.includes("portfolio")) {
-    return "This portfolio highlights projects like an AI‑powered raw‑material marketplace, an academia certificate authenticator, an internship and placement portal, and several secure management systems built with PHP and MySQL.";
-  }
-
+  // Education
   if (q.includes("education") || q.includes("college") || q.includes("b.tech")) {
-    return "I’m pursuing a B.Tech in Computer Science at JNTU Anantapur (2023–2027), and I scored in the top 4% in JEE Mains 2024.";
+    const btech = education.find((e) =>
+      e.title.toLowerCase().includes("b.tech") ||
+      e.title.toLowerCase().includes("computer science"),
+    );
+    if (btech) {
+      return `I’m pursuing ${btech.title} at ${btech.organization} (${btech.period}). I also completed my MPC at Narayana Jr College and scored top 4% in JEE Mains 2024.`;
+    }
+    return "I’m pursuing a B.Tech in Computer Science at JNTU Anantapur (2023–2027), after completing MPC at Narayana Jr College with a top‑4% JEE Mains 2024 result.";
   }
 
+  // Achievements
+  if (q.includes("achievement") || q.includes("award") || q.includes("jee")) {
+    const titles = achievements.map((a) => a.title).join(", ");
+    return `My key achievements include ${titles}, including securing a top‑4% percentile in JEE Mains 2024 and earning multiple cybersecurity certifications.`;
+  }
+
+  // Contact / email
   if (q.includes("contact") || q.includes("email") || q.includes("reach")) {
-    return "You can contact me at Sairishikumar.2005@gmail.com. I’m open to internships, projects, and collaborations around full‑stack development and cybersecurity.";
+    return "You can reach me at Sairishikumar.2005@gmail.com. I’m open to internships, projects, and collaborations around full‑stack development and cybersecurity.";
   }
 
-  return "I’m Rishi’s portfolio assistant. I can answer questions about my skills, projects, NIC internship, education, and interests in full‑stack development and cybersecurity. Ask me anything about those areas.";
+  // Generic about‑me
+  if (
+    q.includes("who are you") ||
+    q.includes("about you") ||
+    q.includes("tell me about yourself")
+  ) {
+    return "I’m Sai Rishi Kumar Vedi, a B.Tech CSE student and full‑stack developer who loves building secure, database‑driven web applications. I’ve worked on e‑Governance systems at NIC and built multiple projects in React, Node.js, PHP, and MySQL with a strong focus on cybersecurity.";
+  }
+
+  // Fallback
+  return "I’m Rishi’s portfolio assistant. I can answer questions about my skills, specific projects (React, PHP, AI/ML, etc.), NIC internship, education, and achievements. Ask me about any of those and I’ll give you details from this portfolio.";
 };
 
 const AIChatbot = () => {
