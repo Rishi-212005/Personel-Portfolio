@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, MouseEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 import { FiSun, FiMoon, FiMenu, FiX } from "react-icons/fi";
@@ -17,6 +17,24 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeSection, setActiveSection] = useState("");
+
+  const scrollToSection = (event: MouseEvent<HTMLAnchorElement>, href: string, closeMobile?: boolean) => {
+    const targetId = href.replace("#", "");
+    const el = document.getElementById(targetId);
+    if (!el) return;
+
+    event.preventDefault();
+
+    const headerOffset = 80;
+    const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+    const offsetPosition = elementPosition - headerOffset;
+
+    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+
+    if (closeMobile) {
+      setMobileOpen(false);
+    }
+  };
 
   useEffect(() => {
     const onScroll = () => {
@@ -63,6 +81,7 @@ const Navbar = () => {
               <a
                 key={link.href}
                 href={link.href}
+                onClick={(e) => scrollToSection(e, link.href)}
                 className={`text-sm font-medium px-3 py-1.5 rounded-lg transition-all duration-300 ${
                   activeSection === link.href.slice(1)
                     ? "text-primary bg-primary/10"
@@ -107,7 +126,7 @@ const Navbar = () => {
                   <a
                     key={link.href}
                     href={link.href}
-                    onClick={() => setMobileOpen(false)}
+                    onClick={(e) => scrollToSection(e, link.href, true)}
                     className="text-sm font-medium text-muted-foreground hover:text-primary py-2.5 px-3 rounded-lg hover:bg-secondary/50 transition-all"
                   >
                     {link.label}
