@@ -42,6 +42,8 @@ export interface Certification {
   credentialUrl: string;
 }
 
+const publicAsset = (filePath: string) => `${import.meta.env.BASE_URL}${filePath.replace(/^\//, "")}`;
+
 export const projects: Project[] = [
   {
     id: "1",
@@ -130,7 +132,7 @@ export const experiences: Experience[] = [
       "Collaborated with senior engineers on system architecture",
     ],
     type: "work",
-    certificateUrl: "/certificates/nic-internship.pdf",
+    certificateUrl: publicAsset("/certificates/nic-internship.pdf"),
   },
 ];
 
@@ -157,42 +159,42 @@ export const certifications: Certification[] = [
     title: "NIC e-Governance Internship",
     issuer: "National Informatics Centre",
     date: "Sep 2025",
-    credentialUrl: "/certificates/nic-internship.pdf",
+    credentialUrl: publicAsset("/certificates/nic-internship.pdf"),
   },
   {
     id: "1",
     title: "Cybersecurity Fundamentals",
     issuer: "Infosys Springboard",
     date: "Jan 2026",
-    credentialUrl: "/certificates/cybersecurity-fundamentals.pdf",
+    credentialUrl: publicAsset("/certificates/cybersecurity-fundamentals.pdf"),
   },
   {
     id: "2",
     title: "Fundamentals of Cryptography",
     issuer: "Infosys Springboard",
     date: "Jan 2026",
-    credentialUrl: "/certificates/fundamentals-of-cryptography.pdf",
+    credentialUrl: publicAsset("/certificates/fundamentals-of-cryptography.pdf"),
   },
   {
     id: "3",
     title: "Cryptography in IT Security & Hacking",
     issuer: "Infosys Springboard",
     date: "Feb 2026",
-    credentialUrl: "/certificates/cryptography-it-security-hacking.pdf",
+    credentialUrl: publicAsset("/certificates/cryptography-it-security-hacking.pdf"),
   },
   {
     id: "4",
     title: "Introduction to PKI",
     issuer: "Infosys Springboard",
     date: "Feb 2026",
-    credentialUrl: "/certificates/intro-to-pki.pdf",
+    credentialUrl: publicAsset("/certificates/intro-to-pki.pdf"),
   },
   {
     id: "5",
     title: "Python Case Study - Cryptography",
     issuer: "Infosys Springboard",
     date: "Feb 2026",
-    credentialUrl: "/certificates/python-cryptography.pdf",
+    credentialUrl: publicAsset("/certificates/python-cryptography.pdf"),
   },
 ];
 
