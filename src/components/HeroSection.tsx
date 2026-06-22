@@ -23,6 +23,7 @@ const HeroSection = () => {
   const { editMode, getData, setData } = useEditMode();
   const [hero, setHero] = useState(() => getData("hero", defaultHero));
   const [typingTitles, setTypingTitles] = useState(() => getData("hero_titles", defaultTitles));
+  const resumeUrl = `${import.meta.env.BASE_URL}Vedi_Sai_Rishi_Kumar.pdf`;
 
   const [titleIndex, setTitleIndex] = useState(0);
   const [text, setText] = useState("");
@@ -175,7 +176,7 @@ const HeroSection = () => {
                     className="btn-primary-glow px-8 py-3.5 rounded-xl inline-flex items-center justify-center gap-2 text-sm font-semibold">
                     <FiMail size={16} /> Get In Touch
                   </motion.a>
-                  <motion.a href="/Vedi_Sai_Rishi_Kumar.pdf" download whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}
+                  <motion.a href={resumeUrl} download whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}
                     className="btn-outline-glow px-8 py-3.5 rounded-xl inline-flex items-center justify-center gap-2 text-sm font-semibold">
                     <FiDownload size={16} /> Download CV
                   </motion.a>
