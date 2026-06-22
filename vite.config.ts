@@ -12,8 +12,8 @@ export default defineConfig(({ mode }) => ({
       overlay: false,
     },
   },
-  // GitHub Pages will serve the app from /Personel-Portfolio/ under your username site.
-  base: mode === "production" ? "/Personel-Portfolio/" : "/",
+  // GitHub Pages serves the app from the repository subpath in production.
+  base: mode === "production" ? "/sai-s-digital-canvas/" : "/",
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
     alias: {
