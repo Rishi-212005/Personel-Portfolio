@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => ({
     },
   },
   // GitHub Pages serves the app from the repository subpath in production.
-  base: mode === "production" ? "/sai-s-digital-canvas/" : "/",
+  base: mode === "production" ? "/Personel-Portfolio/" : "/",
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
     alias: {

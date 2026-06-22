@@ -8,17 +8,18 @@ import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 import {
   SiJavascript, SiPhp, SiTypescript, SiPython, SiReact, SiNodedotjs,
-  SiMysql, SiMongodb, SiGit, SiLinux, SiExpress, SiTailwindcss, SiHtml5, SiCss3,
-  SiDocker, SiAmazon, SiFirebase, SiGraphql, SiRedis, SiPostgresql,
+  SiMysql, SiMongodb, SiGit, SiLinux, SiExpress, SiTailwindcss, SiHtml5, SiCss,
+  SiDocker, SiFirebase, SiGraphql, SiRedis, SiPostgresql,
   SiAngular, SiVuedotjs, SiDjango, SiFlask, SiRust, SiGo, SiKubernetes, SiNextdotjs
 } from "react-icons/si";
+import { FaAws } from "react-icons/fa";
 import { IconType } from "react-icons";
 
 const iconMap: Record<string, IconType> = {
   JavaScript: SiJavascript, TypeScript: SiTypescript, PHP: SiPhp, Python: SiPython,
   React: SiReact, "Node.js": SiNodedotjs, Express: SiExpress, HTML5: SiHtml5,
-  CSS3: SiCss3, Tailwind: SiTailwindcss, MySQL: SiMysql, MongoDB: SiMongodb,
-  Git: SiGit, Linux: SiLinux, Docker: SiDocker, AWS: SiAmazon,
+  CSS3: SiCss, Tailwind: SiTailwindcss, MySQL: SiMysql, MongoDB: SiMongodb,
+  Git: SiGit, Linux: SiLinux, Docker: SiDocker, AWS: FaAws,
   Firebase: SiFirebase, GraphQL: SiGraphql, Redis: SiRedis, PostgreSQL: SiPostgresql,
   Angular: SiAngular, "Vue.js": SiVuedotjs, Django: SiDjango, Flask: SiFlask,
   Rust: SiRust, Go: SiGo, Kubernetes: SiKubernetes, "Next.js": SiNextdotjs,
